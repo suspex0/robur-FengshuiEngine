@@ -1130,7 +1130,7 @@ function Engine.LoadMenu()
             Menu.Text("Heal self at X Health", true)
             Menu.Checkbox("Nidalee.misc.AutoHealSelfTurret", "On turret targeting", true) 
             Menu.Checkbox("Nidalee.misc.AutoHealSelfSave", "Try to heal before you die", true)  
-            Menu.Slider("Nidalee.misc.AutoHealSelf", "% health", 30, 0, 100, 1)
+            Menu.Slider("Nidalee.misc.AutoHealSelf", "% health", 40, 0, 100, 1)
             Menu.Slider("Nidalee.misc.AutoHealSelfMana", "% mana", 20, 0, 100, 1)
 
             Menu.Separator()
