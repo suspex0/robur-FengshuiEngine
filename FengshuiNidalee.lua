@@ -60,6 +60,7 @@ local damageHuman = {
     }
 }
 
+-- mana manger will get included by FengshuiLib.lua
 local manaHuman = {
     Q = {
         Cost = {50, 55, 60, 65, 70}
@@ -99,25 +100,6 @@ local spellsHuman = {
         Range = 900,
         LastCastT = 0,
     })
-}
-
--- cougar
-local damageCougar = {
-    Q = {
-        Base = {5, 30, 55, 80},
-        TotalAP = 0.75,
-        Type = dmgTypes.Magical
-    },
-    W = {
-        Base = {60, 110, 160, 210},
-        TotalAP = 0.30,
-        Type = dmgTypes.Magical
-    },
-    E = {
-        Base = {80, 140, 200, 260},
-        TotalAP = 0.45,
-        Type = dmgTypes.Magical
-    }
 }
 
 local spellsCougar = {
@@ -175,12 +157,6 @@ local slotToDamageTableHuman = {
     [slots.Q] = damageHuman.Q,
     [slots.W] = damageHuman.W,
     [slots.R] = damageHuman.R
-}
-
-local slotToDamageTableCougar = {
-    [slots.Q] = damageCougar.Q,
-    [slots.W] = damageCougar.W,
-    [slots.R] = damageCougar.R
 }
 
 local events = {}
@@ -315,7 +291,6 @@ function Nidalee.CastHumanE(target)
     spellsHuman.E:Cast(target)
 end
 
--- this needs to be fixed
 function Nidalee.GetHumanDamage(target, slot)
     local rawDamage = 0
     local damageType = nil
@@ -354,27 +329,24 @@ function Nidalee.GetCougarDamage(target, slot)
     local rawDamage = 0
     local damageType = nil
     local spellLevel = Player:GetSpell(slot).Level
-    DEBUG(tostring(slots.Q))
     if spellLevel >= 1 then
-        local data = slotToDamageTableCougar[slot]
+            --local data = slotToDamageTableCougar[slot]
 
-        if data then
-            damageType = data.Type
+            damageType = dmgTypes.Magical
 
             if slots == slots.Q then
                 local qD = {5, 30, 55, 80}
                 rawDamage = rawDamage + qD[spellLevel]
                 rawDamage = rawDamage + (0.40 * Player.TotalAD)
+                rawDamage = rawDamage + (0.75 * Player.TotalAP)
             elseif slots == slots.W then
                 local wD = {60, 110, 160, 210}
                 rawDamage = rawDamage + wD[spellLevel]
+                rawDamage = rawDamage + (0.30 * Player.TotalAP)
             elseif slots == slots.E then
                 local eD = {80, 140, 200, 260}
                 rawDamage = rawDamage + eD[spellLevel]
-            end
-
-            if data.TotalAP then
-                rawDamage = rawDamage + (data.TotalAP * Player.TotalAP)
+                rawDamage = rawDamage + (0.45 * Player.TotalAP)
             end
 
             if damageType == dmgTypes.Physical then
@@ -384,7 +356,6 @@ function Nidalee.GetCougarDamage(target, slot)
             else
                 return rawDamage
             end
-        end
     end
 
     return 0
@@ -414,6 +385,7 @@ function Nidalee.CanHeal()
     return false
 end
 
+--  auto heal logic
 function Nidalee.AutoHeal(LagFree)
     if Orbwalker.IsWindingUp() or LagFree == 1 or LagFree >= 4 then -- experimental lag free
         return
@@ -789,7 +761,8 @@ end
 function combatVariants.Waveclear(LagFree)
     if Orbwalker.IsWindingUp() or LagFree >= 3 then return end
     
-    Nidalee.JnglClear() -- still buggy sometimes
+    Nidalee.JnglClear() -- needs to be improved
+    -- lane clear will be added to in the future ;)
 end
 
 function combatVariants.Flee(LagFree)
@@ -1078,6 +1051,7 @@ function Engine.LoadMenu()
         Menu.Separator()
         Menu.Text("FengshuiEngine for " .. champName ..  " loaded.", true)
         Menu.Text("Made by the_dude.", true)
+        Menu.Text("This is a alpha release and still in WIP!", true)
         Menu.Separator()
         Menu.Text("", true)  
 
