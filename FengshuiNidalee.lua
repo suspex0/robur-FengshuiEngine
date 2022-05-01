@@ -706,15 +706,15 @@ function combatVariants.Harass(LagFree)
 end
 
 function Nidalee.JnglClear()
-    local target = ObjManager.GetNearby("neutral", "minions")
+    local targets = ObjManager.GetNearby("neutral", "minions")
     if Nidalee.IsHuman() then
-        for i, obj in ipairs(target) do
-            if obj.IsValid and obj.Health > 6 then
+        for i, obj in ipairs(targets) do
+            if obj.IsValid and obj.MaxHealth > 6 then
                 if Engine.CanCastSpell(slots.Q, "jngl.humanQ") and Engine.IsInRange(Player.Position, obj.Position, 10, spellsHuman.Q.Range) then
                     return Nidalee.CastHumanQ(obj)
                 --w
                 elseif Engine.CanCastSpell(slots.W, "jngl.humanW") and Engine.IsInRange(Player.Position, obj.Position, 0 , spellsHuman.W.Range) then
-                    return spellsHuman.W:Cast(obj.ServerPos)
+                    return spellsHuman.W:Cast(obj.Position)
                 end
                 -- r
                 if Engine.CanCastSpell(slots.R, "jngl.SwitchForm") and Engine.IsInRange(Player.Position, obj.Position, 0 , 275) then
@@ -725,8 +725,8 @@ function Nidalee.JnglClear()
             end
         end
     else
-        for i, obj in ipairs(target) do
-            if obj.IsValid and obj.Health > 6 then
+        for i, obj in ipairs(targets) do
+            if obj.IsValid and obj.MaxHealth > 6 then
                 
                 -- get w range
                 local wRange = 275
@@ -1130,13 +1130,13 @@ function Engine.LoadMenu()
             Menu.Text("Heal self at X Health", true)
             Menu.Checkbox("Nidalee.misc.AutoHealSelfTurret", "On turret targeting", true) 
             Menu.Checkbox("Nidalee.misc.AutoHealSelfSave", "Try to heal before you die", true)  
-            Menu.Slider("Nidalee.misc.AutoHealSelf", "% health", 40, 0, 100, 1)
-            Menu.Slider("Nidalee.misc.AutoHealSelfMana", "% mana", 20, 0, 100, 1)
+            Menu.Slider("Nidalee.misc.AutoHealSelf", "% health", 50, 0, 100, 1)
+            Menu.Slider("Nidalee.misc.AutoHealSelfMana", "% mana", 30, 0, 100, 1)
 
             Menu.Separator()
             Menu.Text("Autoheal ally options", true)
             Menu.Slider("Nidalee.misc.AutoHealAlly", "% health", 20, 0, 100, 1)
-            Menu.Slider("Nidalee.misc.AutoHealAllyMana", "% mana", 40, 0, 100, 1)
+            Menu.Slider("Nidalee.misc.AutoHealAllyMana", "% mana", 35, 0, 100, 1)
             Menu.Checkbox("Nidalee.misc.AutoHealAllySwitchForm", "Switch form to heal ally", true)
             Menu.Checkbox("Nidalee.misc.AutoHealAllySwitchFormEnemy", "Switch form for ally if enemy is close", false)
         end)
