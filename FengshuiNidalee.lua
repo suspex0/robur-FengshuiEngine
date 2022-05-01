@@ -2,7 +2,7 @@ if Player.CharName ~= "Nidalee" then return end
 local scriptName = "FengshuiNidalee"
 local scriptCreator = "thedude"
 local scriptVersion = "0.1.0"
-local scriptColor = 0x3C9BF0FF
+local scriptColor = 0x3CBBFFFF
 
 module(scriptName, package.seeall, log.setup)
 clean.module(scriptName, clean.seeall, log.setup)
